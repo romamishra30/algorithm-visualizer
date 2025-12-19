@@ -1,16 +1,47 @@
-# React + Vite
+# 🔢 Sorting Algorithm Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive web application to visualize how popular sorting algorithms work step by step.  
+Built with **React + Vite** and deployed on **Vercel**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
+👉 https://sorting-visualizer-teal-seven.vercel.app
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
+- Visualizes **Bubble Sort**, **Selection Sort**, and **Insertion Sort**
+- Animated bar comparisons and swaps
+- Adjustable **array size** and **animation speed**
+- Color-coded bars for comparisons and sorted elements
+- Responsive and clean UI
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 Algorithms Covered
+
+| Algorithm       | Time Complexity | Space | Stable |
+|-----------------|-----------------|-------|--------|
+| Bubble Sort     | O(n²)           | O(1)  | Yes    |
+| Selection Sort  | O(n²)           | O(1)  | No     |
+| Insertion Sort  | O(n²)           | O(1)  | Yes    |
+
+---
+
+## 🛠 Tech Stack
+- **React**
+- **Vite**
+- **JavaScript (ES6+)**
+- **Tailwind CSS**
+- **Vercel** (Deployment)
+
+---
+
+## 📦 Installation & Run Locally
+
+```bash
+git clone https://github.com/romamishra30/sorting-visualizer.git
+cd sorting-visualizer
+npm install
+npm run dev
