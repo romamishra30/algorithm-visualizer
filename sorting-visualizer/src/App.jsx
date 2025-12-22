@@ -1,10 +1,8 @@
-// 1️⃣ Import the useState hook from React
 import { useState } from "react";
 
-// 2️⃣ Helper: wait for some time (used for animation delay)
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 3️⃣ Helper: create a random array
 function generateRandomArray(length, minValue, maxValue) {
   const result = [];
   for (let i = 0; i < length; i++) {
@@ -15,136 +13,59 @@ function generateRandomArray(length, minValue, maxValue) {
   return result;
 }
 
-function getMergeSortAnimations(arr) {
-  const animations = [];
-  if (arr.length <= 1) return animations;
-
-  const auxiliaryArray = arr.slice();
-  mergeSortHelper(arr, 0, arr.length - 1, auxiliaryArray, animations);
-  return animations;
-}
-
-function mergeSortHelper(
-  mainArray,
-  startIdx,
-  endIdx,
-  auxiliaryArray,
-  animations
-) {
-  if (startIdx === endIdx) return;
-
-  const middleIdx = Math.floor((startIdx + endIdx) / 2);
-  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
-  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
-  doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
-}
-
-function doMerge(
-  mainArray,
-  startIdx,
-  middleIdx,
-  endIdx,
-  auxiliaryArray,
-  animations
-) {
-  let k = startIdx;
-  let i = startIdx;
-  let j = middleIdx + 1;
-
-  while (i <= middleIdx && j <= endIdx) {
-    if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-      animations.push([k, auxiliaryArray[i]]);
-      mainArray[k++] = auxiliaryArray[i++];
-    } else {
-      animations.push([k, auxiliaryArray[j]]);
-      mainArray[k++] = auxiliaryArray[j++];
-    }
-  }
-
-  while (i <= middleIdx) {
-    animations.push([k, auxiliaryArray[i]]);
-    mainArray[k++] = auxiliaryArray[i++];
-  }
-
-  while (j <= endIdx) {
-    animations.push([k, auxiliaryArray[j]]);
-    mainArray[k++] = auxiliaryArray[j++];
-  }
-}
-
-
-// 4️⃣ Main component
+// main
 export default function App() {
-  // The array we are visualizing
   const [array, setArray] = useState([]);
 
-  // Number of elements in the array
   const [size, setSize] = useState(40);
-
-  // Delay between animation steps (in ms)
   const [speed, setSpeed] = useState(80);
 
-  // Are we currently sorting? (used to disable buttons)
   const [isSorting, setIsSorting] = useState(false);
-
-  // Which two indices are being compared right now (for coloring)
   const [activeIndices, setActiveIndices] = useState({ i: null, j: null });
 
-  // Index from which elements are sorted (for green bars)
   const [sortedIndex, setSortedIndex] = useState(null);
-
   const [currentAlgo, setCurrentAlgo] = useState(null);
 
 
 
-  // 5️⃣ Create a new random array
   const handleGenerateArray = () => {
-    if (isSorting) return; // don't regenerate while sorting
+    if (isSorting) return; 
 
     const newArray = generateRandomArray(size, 10, 250);
     setArray(newArray);
-    setActiveIndices({ i: null, j: null }); // clear highlights
+    setActiveIndices({ i: null, j: null }); 
   };
 
-  // 6️⃣ Bubble Sort with animation
+  // Bubble Sort 
   const handleBubbleSort = async () => {
-    // If we are already sorting or array is empty, do nothing
     if (isSorting || array.length === 0) return;
 
-    setIsSorting(true); // lock the UI
-
-    // Make a copy so we don't mutate state directly
+    setIsSorting(true); 
     const arr = [...array];
     const n = arr.length;
 
     for (let i = 0; i < n - 1; i++) {
       setSortedIndex(n - i);
       for (let j = 0; j < n - i - 1; j++) {
-        // Highlight the two bars being compared
+// highlight the bars
         setActiveIndices({ i: j, j: j + 1 });
 
-        // If left element is greater, swap
         if (arr[j] > arr[j + 1]) {
           const temp = arr[j];
           arr[j] = arr[j + 1];
           arr[j + 1] = temp;
         }
-
-        // Update the array in state so bars move
         setArray([...arr]);
 
-        // Wait for "speed" ms before next step
         await sleep(speed);
       }
     }
 
-    // Sorting done → clear highlights and unlock UI
     setActiveIndices({ i: null, j: null });
     setSortedIndex(0);
     setIsSorting(false);
   };
 
-  // Selection Sort with animation
   const handleSelectionSort = async () => {
     if (isSorting || array.length === 0) return;
 
@@ -156,11 +77,9 @@ export default function App() {
     for (let i = 0; i < n - 1; i++) {
       let minIndex = i;
 
-      // Highlight the starting index
       setActiveIndices({ i: minIndex, j: null });
 
       for (let j = i + 1; j < n; j++) {
-        // Highlight comparison
         setActiveIndices({ i: minIndex, j });
 
         if (arr[j] < arr[minIndex]) {
@@ -171,7 +90,6 @@ export default function App() {
         await sleep(speed);
       }
 
-      // Swap minimum with first unsorted element
       if (minIndex !== i) {
         const temp = arr[i];
         arr[i] = arr[minIndex];
@@ -179,7 +97,7 @@ export default function App() {
       }
 
       setArray([...arr]);
-      setSortedIndex(i + 1); // left side sorted
+      setSortedIndex(i + 1); 
       await sleep(speed);
     }
 
@@ -188,7 +106,10 @@ export default function App() {
     setIsSorting(false);
   };
 
-  // Insertion Sort with animation
+
+
+
+  // Insertion Sort 
   const handleInsertionSort = async () => {
     if (isSorting || array.length === 0) return;
 
@@ -201,11 +122,9 @@ export default function App() {
       let key = arr[i];
       let j = i - 1;
 
-      // Highlight the key being inserted
       setActiveIndices({ i, j: null });
       await sleep(speed);
 
-      // Shift elements to the right
       while (j >= 0 && arr[j] > key) {
         setActiveIndices({ i: j, j: j + 1 });
 
@@ -216,11 +135,10 @@ export default function App() {
         await sleep(speed);
       }
 
-      // Insert key at correct position
       arr[j + 1] = key;
       setArray([...arr]);
 
-      // Left part is sorted
+      
       setSortedIndex(i + 1);
       await sleep(speed);
     }
@@ -230,34 +148,11 @@ export default function App() {
     setIsSorting(false);
   };
 
-  // Merge Sort with animation
-  const handleMergeSort = async () => {
-    if (isSorting || array.length === 0) return;
-
-    setIsSorting(true);
-    setActiveIndices({ i: null, j: null });
-    setSortedIndex(null);
-
-    const animations = getMergeSortAnimations([...array]);
-    const arr = [...array];
-
-    for (let i = 0; i < animations.length; i++) {
-      const [index, newValue] = animations[i];
-
-      arr[index] = newValue;
-      setArray([...arr]);
-
-      await sleep(speed);
-    }
-
-    setSortedIndex(0);
-    setIsSorting(false);
-  };
 
 
 
-
-  // 7️⃣ JSX: what appears on screen
+  
+  // appearing on screen
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4">
       {/* Title */}
@@ -267,7 +162,7 @@ export default function App() {
 
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-4 mb-6">
-        {/* Generate button */}
+       {/* Generate button */}
         <button
           onClick={handleGenerateArray}
           disabled={isSorting}
@@ -276,6 +171,8 @@ export default function App() {
         >
           Generate New Array
         </button>
+
+
 
         {/* Bubble Sort button */}
         <button
@@ -293,6 +190,8 @@ export default function App() {
         </button>
 
 
+
+
         {/* Selection Sort button */}
         <button
           onClick={() => {
@@ -307,6 +206,9 @@ export default function App() {
         >
           Selection Sort
         </button>
+
+
+
 
         {/* Insertion Sort button */}
         <button
@@ -323,20 +225,7 @@ export default function App() {
           Insertion Sort
         </button>
 
-        {/* Merge Sort button */}
-        <button
-          onClick={() => {
-            setCurrentAlgo("Merge Sort");
-            handleMergeSort();
-          }}
-          disabled={isSorting || array.length === 0}
-          className={`px-4 py-2 rounded 
-    ${isSorting || array.length === 0
-              ? "bg-pink-300 cursor-not-allowed"
-              : "bg-pink-500 hover:bg-pink-600"}`}
-        >
-          Merge Sort
-        </button>
+
 
 
 
@@ -354,6 +243,9 @@ export default function App() {
           <span className="text-sm text-gray-300">{size}</span>
         </div>
 
+
+
+
         {/* Speed slider */}
         <div className="flex items-center gap-2">
           <span>Speed:</span>
@@ -369,8 +261,33 @@ export default function App() {
         </div>
       </div>
 
+
+
+
+      {currentAlgo && (
+        <div className="mt-4 p-4 bg-slate-800 rounded-lg text-sm">
+          <p><b>Algorithm:</b> {currentAlgo}</p>
+
+          {currentAlgo === "Bubble Sort" && (
+            <p>Time: O(n²) | Space: O(1) | Stable: Yes</p>
+          )}
+
+          {currentAlgo === "Selection Sort" && (
+            <p>Time: O(n²) | Space: O(1) | Stable: No</p>
+          )}
+
+          {currentAlgo === "Insertion Sort" && (
+            <p>Time: O(n²) | Space: O(1) | Stable: Yes</p>
+          )}
+        </div>
+      )}
+
+
+
+
+
       {/* Bars container */}
-      <div className="flex items-end gap-[2px] h-96 bg-slate-900 rounded-xl p-3 overflow-hidden shadow-lg">
+      <div className="flex items-end justify-center gap-[2px] h-96 bg-slate-900 rounded-xl p-3 overflow-hidden shadow-lg">
         {array.map((value, index) => {
           const isActive =
             index === activeIndices.i || index === activeIndices.j;
@@ -381,11 +298,18 @@ export default function App() {
           return (
             <div
               key={index}
-              className={`w-[6px] md:w-[8px] ${isSorted ? "bg-emerald-400"
-                : isActive ? "bg-red-400" : "bg-cyan-400"
+              className={`${isSorted
+                ? "bg-emerald-400"
+                : isActive
+                  ? "bg-red-400"
+                  : "bg-cyan-400"
                 }`}
-              style={{ height: `${value}px` }}
+              style={{
+                height: `${value}px`,
+                width: `${Math.max(3, 700 / array.length)}px`,
+              }}
             />
+
           );
         })}
       </div>

@@ -1,22 +1,22 @@
-# 🔢 Sorting Algorithm Visualizer
+#  Sorting Algorithm Visualizer
 
 An interactive web application to visualize how popular sorting algorithms work step by step.  
 Built with **React + Vite** and deployed on **Vercel**.
 
 ---
 
-## 🚀 Live Demo
-👉 https://sorting-visualizer-teal-seven.vercel.app
+##  Live Demo
+ https://sorting-visualizer-teal-seven.vercel.app
 
 
-## 📸 Preview
+##  Preview
 
 ![Sorting Visualizer Preview](assets/visualizer.png)
 
 
 ---
 
-## ✨ Features
+##  Features
 - Visualizes **Bubble Sort**, **Selection Sort**, and **Insertion Sort**
 - Animated bar comparisons and swaps
 - Adjustable **array size** and **animation speed**
@@ -25,7 +25,7 @@ Built with **React + Vite** and deployed on **Vercel**.
 
 ---
 
-## 🧠 Algorithms Covered
+##  Algorithms Covered
 
 | Algorithm       | Time Complexity | Space | Stable |
 |-----------------|-----------------|-------|--------|
@@ -35,7 +35,7 @@ Built with **React + Vite** and deployed on **Vercel**.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 - **React**
 - **Vite**
 - **JavaScript (ES6+)**
@@ -44,7 +44,7 @@ Built with **React + Vite** and deployed on **Vercel**.
 
 ---
 
-## 📦 Installation & Run Locally
+##  Installation & Run Locally
 
 ```bash
 git clone https://github.com/romamishra30/sorting-visualizer.git
